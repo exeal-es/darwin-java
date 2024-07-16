@@ -41,22 +41,21 @@ public class Main {
             String[] requestParts = line.split(" ");
             if (requestParts.length > 1) {
                 String path = requestParts[1];
-                String response = handleResponse(path);
+                HttpResponse response = handleResponse(new HttpRequest(path));
 
-                out.write(response.getBytes("UTF-8"));
-                out.flush();
+                response.writeTo(out);
             }
         }
     }
 
-    private static String handleResponse(String path) {
-        String response;
+    private static HttpResponse handleResponse(HttpRequest httpRequest) {
+        String payload;
 
-        if (path.equals("/hello")) {
-            response = "HTTP/1.1 200 OK\r\n\r\nWelcome!";
+        if (httpRequest.path().equals("/hello")) {
+            payload = "HTTP/1.1 200 OK\r\n\r\nWelcome!";
         } else {
-            response = "HTTP/1.1 404 Not Found\r\n\r\nNot Found";
+            payload = "HTTP/1.1 404 Not Found\r\n\r\nNot Found";
         }
-        return response;
+        return new HttpResponse(payload);
     }
 }
