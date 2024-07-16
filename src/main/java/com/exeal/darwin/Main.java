@@ -34,29 +34,10 @@ public class Main {
         System.out.println("New client connected");
 
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        HttpRequest httpRequest = readHttpRequest(in);
-        HttpResponse response = handleResponse(httpRequest);
+        HttpRequest httpRequest = HttpRequestReader.readHttpRequest(in);
+        HttpResponse httpResponse = handleResponse(httpRequest);
 
-        OutputStream out = clientSocket.getOutputStream();
-        response.writeTo(out);
-    }
-
-    private static HttpRequest readHttpRequest(BufferedReader in) throws IOException {
-        String line = in.readLine();
-        if (line == null) {
-            throw new MalformedHttpRequestException("Invalid HTTP request: null line");
-        }
-        String[] requestParts = line.split(" ");
-        if (requestParts.length <= 1) {
-            throw new MalformedHttpRequestException("Invalid HTTP request: " + line);
-        }
-        String verb = requestParts[0];
-        String fullPath = requestParts[1];
-        String[] pathParts = fullPath.split("\\?");
-        QueryParams queryParams = pathParts.length > 1 ? new QueryString(pathParts[1]).readQueryParams() : QueryParams.empty();
-
-        String path = pathParts[0];
-        return new HttpRequest(verb, path, queryParams);
+        httpResponse.writeTo(clientSocket.getOutputStream());
     }
 
     private static HttpResponse handleResponse(HttpRequest httpRequest) {
