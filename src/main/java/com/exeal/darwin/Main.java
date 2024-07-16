@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -55,25 +53,10 @@ public class Main {
         String verb = requestParts[0];
         String fullPath = requestParts[1];
         String[] pathParts = fullPath.split("\\?");
+        QueryParams queryParams = pathParts.length > 1 ? new QueryString(pathParts[1]).readQueryParams() : QueryParams.empty();
+
         String path = pathParts[0];
-
-        QueryParams queryParams = readQueryParams(pathParts);
-
         return new HttpRequest(verb, path, queryParams);
-    }
-
-    private static QueryParams readQueryParams(String[] pathParts) {
-        Map<String, String> queryParams = new HashMap<>();
-        if (pathParts.length > 1) {
-            String[] pairs = pathParts[1].split("&");
-            for (String pair : pairs) {
-                String[] kv = pair.split("=");
-                if (kv.length > 1) {
-                    queryParams.put(kv[0], kv[1]);
-                }
-            }
-        }
-        return new QueryParams(queryParams);
     }
 
     private static HttpResponse handleResponse(HttpRequest httpRequest) {
