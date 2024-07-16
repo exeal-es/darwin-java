@@ -5,9 +5,9 @@ import java.util.Map;
 public final class HttpRequest {
     private final String verb;
     private final String path;
-    private final Map<String, String> queryParams;
+    private final QueryParams queryParams;
 
-    public HttpRequest(String verb, String path, Map<String, String> queryParams) {
+    public HttpRequest(String verb, String path, QueryParams queryParams) {
         this.verb = verb;
         this.path = path;
         this.queryParams = queryParams;

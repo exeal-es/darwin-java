@@ -57,12 +57,12 @@ public class Main {
         String[] pathParts = fullPath.split("\\?");
         String path = pathParts[0];
 
-        Map<String, String> queryParams = readQueryParams(pathParts);
+        QueryParams queryParams = readQueryParams(pathParts);
 
         return new HttpRequest(verb, path, queryParams);
     }
 
-    private static Map<String, String> readQueryParams(String[] pathParts) {
+    private static QueryParams readQueryParams(String[] pathParts) {
         Map<String, String> queryParams = new HashMap<>();
         if (pathParts.length > 1) {
             String[] pairs = pathParts[1].split("&");
@@ -73,7 +73,7 @@ public class Main {
                 }
             }
         }
-        return queryParams;
+        return new QueryParams(queryParams);
     }
 
     private static HttpResponse handleResponse(HttpRequest httpRequest) {
