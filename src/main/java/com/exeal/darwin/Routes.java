@@ -11,15 +11,15 @@ public class Routes {
         this.routes = new HashMap<>();
     }
 
-    public boolean containsKey(String path) {
+    public boolean contains(String path) {
         return routes.containsKey(path);
     }
 
-    public Function<HttpRequest, HttpResponse> get(String path) {
-        return routes.get(path);
+    public Function<HttpRequest, HttpResponse> find(HttpRequest request) {
+        return routes.get(request.path());
     }
 
-    public void put(String verb, String path, Function<HttpRequest, HttpResponse> callback) {
+    public void add(String verb, String path, Function<HttpRequest, HttpResponse> callback) {
         routes.put(path, callback);
     }
 }

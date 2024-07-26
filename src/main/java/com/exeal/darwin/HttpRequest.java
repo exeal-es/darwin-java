@@ -7,6 +7,10 @@ public final class HttpRequest {
     private final String path;
     private final QueryParams queryParams;
 
+    public HttpRequest(String verb, String path) {
+        this(verb, path, QueryParams.empty());
+    }
+
     public HttpRequest(String verb, String path, QueryParams queryParams) {
         this.verb = verb;
         this.path = path;

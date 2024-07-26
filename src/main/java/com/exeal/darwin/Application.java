@@ -45,9 +45,9 @@ public class Application {
     }
 
     private HttpResponse handleResponse(HttpRequest httpRequest) {
-        if (routes.containsKey(httpRequest.path())) {
+        if (routes.contains(httpRequest.path())) {
             if (httpRequest.verb().equals("GET")) {
-                Function<HttpRequest, HttpResponse> callback = routes.get(httpRequest.path());
+                Function<HttpRequest, HttpResponse> callback = routes.find(httpRequest);
                 HttpResponse response = callback.apply(httpRequest);
                 return response;
             } else {
@@ -63,6 +63,6 @@ public class Application {
     private final Routes routes = new Routes();
 
     public void get(String path, Function<HttpRequest, HttpResponse> callback) {
-        routes.put("GET", path, callback);
+        routes.add("GET", path, callback);
     }
 }
