@@ -2,14 +2,13 @@ package com.exeal.darwin;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 public final class Resource {
-    private final Path path;
-    private final Map<HttpVerb, Function<HttpRequest, HttpResponse>> map;
+    private final PathTemplate pathTemplate;
+    private final Map<HttpVerb, Handler> map;
 
-    public Resource(Path path) {
-        this.path = path;
+    public Resource(PathTemplate pathTemplate) {
+        this.pathTemplate = pathTemplate;
         this.map = new HashMap<>();
     }
 
@@ -17,15 +16,15 @@ public final class Resource {
         return path().matches(path);
     }
 
-    public void put(HttpVerb verb, Function<HttpRequest, HttpResponse> callback) {
-        map.put(verb, callback);
+    public void put(HttpVerb verb, Handler handler) {
+        map.put(verb, handler);
     }
 
-    public Function<HttpRequest, HttpResponse> get(HttpVerb verb) {
+    public Handler get(HttpVerb verb) {
         return map.get(verb);
     }
 
-    public Path path() {
-        return path;
+    public PathTemplate path() {
+        return pathTemplate;
     }
 }

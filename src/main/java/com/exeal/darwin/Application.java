@@ -10,14 +10,14 @@ import java.util.function.Function;
 
 public class Application {
 
-    private final Routes routes;
+    private final Resources resources;
 
     public Application() {
-        routes = new Routes();
+        resources = new Resources();
     }
 
     public void get(String path, Function<HttpRequest, HttpResponse> callback) {
-        routes.add(HttpVerb.GET, new Path(path), callback);
+        resources.add(HttpVerb.GET, new PathTemplate(path), new Handler(callback));
     }
 
     public void run(int port) {
@@ -55,6 +55,6 @@ public class Application {
     }
 
     private HttpResponse handleResponse(HttpRequest httpRequest) {
-        return routes.findAndApply(httpRequest);
+        return resources.findAndApply(httpRequest);
     }
 }
