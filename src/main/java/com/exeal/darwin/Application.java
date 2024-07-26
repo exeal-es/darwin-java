@@ -62,7 +62,7 @@ public class Application {
         }
     }
 
-    private final Map<String, Function<HttpRequest, HttpResponse>> routes = new HashMap<>();
+    private final Routes routes = new Routes();
 
     public void get(String path, Function<HttpRequest, HttpResponse> callback) {
         routes.put(path, callback);
