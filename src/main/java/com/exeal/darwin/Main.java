@@ -37,7 +37,9 @@ public class Main {
         HttpRequest httpRequest = HttpRequestReader.readHttpRequest(in);
         HttpResponse httpResponse = handleResponse(httpRequest);
 
-        httpResponse.writeTo(clientSocket.getOutputStream());
+        OutputStream out = clientSocket.getOutputStream();
+        out.write(httpResponse.payload().getBytes("UTF-8"));
+        out.flush();
     }
 
     private static HttpResponse handleResponse(HttpRequest httpRequest) {
