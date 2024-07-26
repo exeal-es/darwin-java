@@ -19,11 +19,7 @@ public class HttpRequestReader {
         QueryParams queryParams = pathParts.length > 1 ? new QueryString(pathParts[1]).readQueryParams() : QueryParams.empty();
 
         String path = pathParts[0];
-        return new HttpRequest(parseHttpVerb(verb), path, queryParams);
+        return new HttpRequest(HttpVerb.parse(verb), path, queryParams);
     }
 
-    private static HttpVerb parseHttpVerb(String verb) {
-        if (verb.equals("GET")) return HttpVerb.GET;
-        else return HttpVerb.POST;
-    }
 }
