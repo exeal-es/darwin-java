@@ -43,19 +43,16 @@ public class Main {
     }
 
     private static HttpResponse handleResponse(HttpRequest httpRequest) {
-        String payload;
-
         if (httpRequest.path().equals("/greet")) {
             String name = httpRequest.queryParam("name");
             String body = "Hello " + name + "!";
-            payload = "200 OK\r\n\r\n" + body;
+            return new HttpResponse("200 OK", body);
         } else if (httpRequest.verb().equals("POST")) {
-            payload = "201 Created\r\n\r\nCreated!";
+            return new HttpResponse("201 Created", "Created!");
         } else if (httpRequest.path().equals("/hello")) {
-            payload = "200 OK\r\n\r\nWelcome!";
+            return new HttpResponse("200 OK", "Welcome!");
         } else {
-            payload = "404 Not Found\r\n\r\nNot Found";
+            return new HttpResponse("404 Not Found", "Not Found");
         }
-        return new HttpResponse(payload);
     }
 }
