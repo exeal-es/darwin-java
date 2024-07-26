@@ -45,17 +45,7 @@ public class Application {
     }
 
     private HttpResponse handleResponse(HttpRequest httpRequest) {
-        if (routes.contains(httpRequest.path())) {
-            if (httpRequest.verb().equals("GET")) {
-                return routes.findAndApply(httpRequest);
-            } else {
-                return HttpResponse.methodNotAllowed();
-            }
-        } else if (httpRequest.verb().equals("POST")) {
-            return HttpResponse.created("Created!");
-        } else {
-            return HttpResponse.notFound("Not Found");
-        }
+        return routes.findAndApply(httpRequest);
     }
 
     private final Routes routes = new Routes();

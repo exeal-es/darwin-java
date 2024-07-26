@@ -48,21 +48,6 @@ public class ApplicationTest {
     }
 
     @Test
-    public void testPostToHelloShouldRespondWith201Created() throws IOException {
-        // Arrange
-        Application app = new Application();
-        int port = findAvailableTcpPort();
-        app.run(port);
-
-        // Act & Assert
-        given()
-                .when()
-                .post("http://localhost:" + port + "/hello")
-                .then()
-                .statusCode(201);
-    }
-
-    @Test
     public void testPassQueryStringParameterAndReturnItInTheBody() throws IOException {
         // Arrange
         Application app = new Application();

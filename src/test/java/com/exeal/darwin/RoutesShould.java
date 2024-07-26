@@ -35,7 +35,7 @@ public class RoutesShould {
      }
 
      @Test
-     public void returnNullWhenPathIsNotContained() {
+     public void returnNotFoundWhenPathIsNotContained() {
          Routes routes = new Routes();
 
          HttpRequest request = new HttpRequest("GET", "/test");
@@ -43,6 +43,26 @@ public class RoutesShould {
 
          assertEquals(404, response.statusCode());
      }
+
+    @Test
+    public void returnMethodNotAllowedWhenPathIsContainedButForOtherMethod() {
+        Routes routes = new Routes();
+        routes.add("GET", "/test", (req) -> HttpResponse.ok("OK"));
+
+        HttpResponse response = routes.findAndApply(new HttpRequest("POST", "/test"));
+
+        assertEquals(405, response.statusCode());
+    }
+
+    @Test
+    public void returnMethodNotAllowedWhenPathIsContainedButForOtherMethod2() {
+        Routes routes = new Routes();
+        routes.add("POST", "/test", (req) -> HttpResponse.ok("OK"));
+
+        HttpResponse response = routes.findAndApply(new HttpRequest("GET", "/test"));
+
+        assertEquals(405, response.statusCode());
+    }
 
      @Test
      public void addMultipleRoutes() {
