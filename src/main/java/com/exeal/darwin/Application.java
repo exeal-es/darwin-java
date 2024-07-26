@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 public class Application {
@@ -65,6 +63,6 @@ public class Application {
     private final Routes routes = new Routes();
 
     public void get(String path, Function<HttpRequest, HttpResponse> callback) {
-        routes.put(path, callback);
+        routes.put("GET", path, callback);
     }
 }

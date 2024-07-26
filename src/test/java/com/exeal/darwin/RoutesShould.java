@@ -13,7 +13,7 @@ public class RoutesShould {
      @Test
      public void returnTrueWhenPathIsContained() {
          Routes routes = new Routes();
-         routes.put("/test", (request) -> HttpResponse.ok("OK"));
+         routes.put("GET", "/test", (request) -> HttpResponse.ok("OK"));
          assertTrue(routes.containsKey("/test"));
      }
 
@@ -27,7 +27,7 @@ public class RoutesShould {
      public void returnCallbackWhenPathIsContained() {
          Routes routes = new Routes();
          Function<HttpRequest, HttpResponse> callback = (request) -> HttpResponse.ok("OK");
-         routes.put("/test", callback);
+         routes.put("GET", "/test", callback);
          assertEquals(callback, routes.get("/test"));
      }
 
@@ -42,8 +42,8 @@ public class RoutesShould {
          Routes routes = new Routes();
          Function<HttpRequest, HttpResponse> callback1 = (request) -> HttpResponse.ok("OK");
          Function<HttpRequest, HttpResponse> callback2 = (request) -> HttpResponse.created("Created");
-         routes.put("/test", callback1);
-         routes.put("/test2", callback2);
+         routes.put("GET", "/test", callback1);
+         routes.put("GET", "/test2", callback2);
          assertTrue(routes.containsKey("/test"));
          assertTrue(routes.containsKey("/test2"));
          assertEquals(callback1, routes.get("/test"));

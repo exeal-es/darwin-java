@@ -19,7 +19,7 @@ public class Routes {
         return routes.get(path);
     }
 
-    public void put(String path, Function<HttpRequest, HttpResponse> callback) {
+    public void put(String verb, String path, Function<HttpRequest, HttpResponse> callback) {
         routes.put(path, callback);
     }
 }
