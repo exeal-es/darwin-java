@@ -28,8 +28,4 @@ public final class Resource {
     public Path path() {
         return path;
     }
-
-    public Map<HttpVerb, Function<HttpRequest, HttpResponse>> map() {
-        return map;
-    }
 }
