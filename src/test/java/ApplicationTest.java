@@ -89,23 +89,4 @@ public class ApplicationTest {
                 .then()
                 .statusCode(405);
     }
-
-    @Test
-    public void testReturnError500WhenUnhandledExceptionHappensInUserCode() throws IOException {
-        // Arrange
-        Application app = new Application();
-        app.get("/hello", (req) -> {
-            throw new RuntimeException("Something went wrong");
-        });
-
-        int port = findAvailableTcpPort();
-        app.run(port);
-
-        // Act & Assert
-        given()
-                .when()
-                .get("http://localhost:" + port + "/hello")
-                .then()
-                .statusCode(500);
-    }
 }

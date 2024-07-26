@@ -47,4 +47,8 @@ public class HttpResponse {
     public int statusCode() {
         return statusCode;
     }
+
+    public String body() {
+        return body;
+    }
 }

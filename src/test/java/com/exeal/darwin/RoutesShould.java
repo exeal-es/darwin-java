@@ -2,8 +2,10 @@ package com.exeal.darwin;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.function.Function;
 
+import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RoutesShould {
@@ -63,4 +65,17 @@ public class RoutesShould {
          HttpResponse response2 = routes.findAndApply(request2);
          assertEquals(201, response2.statusCode());
      }
+
+    @Test
+    public void testReturnError500WhenUnhandledExceptionHappensInUserCode() {
+        Routes routes = new Routes();
+        routes.add(HttpVerb.GET, new Path("/test"), (req) -> {
+            throw new RuntimeException("Error");
+        });
+
+        HttpResponse response = routes.findAndApply(new HttpRequest(HttpVerb.GET, new Path("/test")));
+
+        assertEquals(500, response.statusCode());
+        assertEquals("Error", response.body());
+    }
 }
