@@ -6,11 +6,6 @@ public record Request(QueryParams queryParams, String path, PathTemplate pathTem
     }
 
     public String pathParam(String name) {
-        if (name.equals("id")) {
-            return pathTemplate.extractParam(path, "id");
-        } else if (name.equals("name")) {
-            return pathTemplate.extractParam(path, "name");
-        }
-        return null;
+        return pathTemplate.extractParam(path, name);
     }
 }
