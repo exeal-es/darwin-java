@@ -17,7 +17,7 @@ public class Application {
     }
 
     public void get(String path, Function<HttpRequest, HttpResponse> callback) {
-        routes.add(HttpVerb.GET, path, callback);
+        routes.add(HttpVerb.GET, new Path(path), callback);
     }
 
     public void run(int port) {

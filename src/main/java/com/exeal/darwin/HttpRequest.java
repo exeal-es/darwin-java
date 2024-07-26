@@ -2,14 +2,14 @@ package com.exeal.darwin;
 
 public final class HttpRequest {
     private final HttpVerb verb;
-    private final String path;
+    private final Path path;
     private final QueryParams queryParams;
 
-    public HttpRequest(HttpVerb verb, String path) {
+    public HttpRequest(HttpVerb verb, Path path) {
         this(verb, path, QueryParams.empty());
     }
 
-    public HttpRequest(HttpVerb verb, String path, QueryParams queryParams) {
+    public HttpRequest(HttpVerb verb, Path path, QueryParams queryParams) {
         this.verb = verb;
         this.path = path;
         this.queryParams = queryParams;
@@ -19,7 +19,7 @@ public final class HttpRequest {
         return verb;
     }
 
-    public String path() {
+    public Path path() {
         return path;
     }
 
