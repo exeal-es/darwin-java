@@ -48,13 +48,13 @@ public class Main {
         if (httpRequest.path().equals("/greet")) {
             String name = httpRequest.queryParam("name");
             String body = "Hello " + name + "!";
-            payload = "HTTP/1.1 200 OK\r\n\r\n" + body;
+            payload = "200 OK\r\n\r\n" + body;
         } else if (httpRequest.verb().equals("POST")) {
-            payload = "HTTP/1.1 201 Created\r\n\r\nCreated!";
+            payload = "201 Created\r\n\r\nCreated!";
         } else if (httpRequest.path().equals("/hello")) {
-            payload = "HTTP/1.1 200 OK\r\n\r\nWelcome!";
+            payload = "200 OK\r\n\r\nWelcome!";
         } else {
-            payload = "HTTP/1.1 404 Not Found\r\n\r\nNot Found";
+            payload = "404 Not Found\r\n\r\nNot Found";
         }
         return new HttpResponse(payload);
     }

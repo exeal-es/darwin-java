@@ -8,6 +8,6 @@ public class HttpResponse {
     }
 
     public String payload() {
-        return payload;
+        return "HTTP/1.1 " + payload;
     }
 }
