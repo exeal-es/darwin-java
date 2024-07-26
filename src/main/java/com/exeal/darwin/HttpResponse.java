@@ -1,11 +1,6 @@
 package com.exeal.darwin;
 
 public class HttpResponse {
-    // "200 OK"
-    // "201 Created"
-    // "404 Not Found"
-    // "405 Method Not Allowed"
-
     private final int statusCode;
     private final String body;
 
@@ -30,6 +25,10 @@ public class HttpResponse {
         return new HttpResponse(405, "");
     }
 
+    public static HttpResponse internalServerError(String body) {
+        return new HttpResponse(500, body);
+    }
+
     public String payload() {
         return "HTTP/1.1 " + statusCode + " " + statusCodeString() + "\r\n\r\n" + body;
     }
@@ -40,6 +39,7 @@ public class HttpResponse {
             case 201 -> "Created";
             case 404 -> "Not Found";
             case 405 -> "Method Not Allowed";
+            case 500 -> "Internal Server Error";
             default -> "";
         };
     }

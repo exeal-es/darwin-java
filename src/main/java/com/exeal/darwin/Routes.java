@@ -20,7 +20,12 @@ public class Routes {
             if (callback == null) {
                 return HttpResponse.methodNotAllowed();
             }
-            return callback.apply(request);
+            try {
+                return callback.apply(request);
+            } catch (Exception e) {
+                return HttpResponse.internalServerError(e.getMessage());
+            }
+
         }
     }
 
