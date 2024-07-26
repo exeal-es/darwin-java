@@ -1,23 +1,21 @@
 package com.exeal.darwin;
 
-import java.util.Map;
-
 public final class HttpRequest {
-    private final String verb;
+    private final HttpVerb verb;
     private final String path;
     private final QueryParams queryParams;
 
-    public HttpRequest(String verb, String path) {
+    public HttpRequest(HttpVerb verb, String path) {
         this(verb, path, QueryParams.empty());
     }
 
-    public HttpRequest(String verb, String path, QueryParams queryParams) {
+    public HttpRequest(HttpVerb verb, String path, QueryParams queryParams) {
         this.verb = verb;
         this.path = path;
         this.queryParams = queryParams;
     }
 
-    public String verb() {
+    public HttpVerb verb() {
         return verb;
     }
 

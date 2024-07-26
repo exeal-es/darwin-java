@@ -10,6 +10,16 @@ import java.util.function.Function;
 
 public class Application {
 
+    private final Routes routes;
+
+    public Application() {
+        routes = new Routes();
+    }
+
+    public void get(String path, Function<HttpRequest, HttpResponse> callback) {
+        routes.add(HttpVerb.GET, path, callback);
+    }
+
     public void run(int port) {
         Thread serverThread = new Thread(() -> listenHttpAndRespond(port));
         serverThread.start();
@@ -46,11 +56,5 @@ public class Application {
 
     private HttpResponse handleResponse(HttpRequest httpRequest) {
         return routes.findAndApply(httpRequest);
-    }
-
-    private final Routes routes = new Routes();
-
-    public void get(String path, Function<HttpRequest, HttpResponse> callback) {
-        routes.add("GET", path, callback);
     }
 }

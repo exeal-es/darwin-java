@@ -12,7 +12,7 @@ public class RoutesShould {
      @Test
      public void returnTrueWhenPathIsContained() {
          Routes routes = new Routes();
-         routes.add("GET", "/test", (request) -> HttpResponse.ok("OK"));
+         routes.add(HttpVerb.GET, "/test", (request) -> HttpResponse.ok("OK"));
          assertTrue(routes.contains("/test"));
      }
 
@@ -26,9 +26,9 @@ public class RoutesShould {
      public void returnCallbackWhenPathIsContained() {
          Routes routes = new Routes();
          Function<HttpRequest, HttpResponse> callback = (request) -> HttpResponse.ok("OK");
-         routes.add("GET", "/test", callback);
+         routes.add(HttpVerb.GET, "/test", callback);
 
-         HttpRequest request = new HttpRequest("GET", "/test");
+         HttpRequest request = new HttpRequest(HttpVerb.GET, "/test");
          HttpResponse response = routes.findAndApply(request);
 
          assertEquals(200, response.statusCode());
@@ -38,7 +38,7 @@ public class RoutesShould {
      public void returnNotFoundWhenPathIsNotContained() {
          Routes routes = new Routes();
 
-         HttpRequest request = new HttpRequest("GET", "/test");
+         HttpRequest request = new HttpRequest(HttpVerb.GET, "/test");
          HttpResponse response = routes.findAndApply(request);
 
          assertEquals(404, response.statusCode());
@@ -47,9 +47,9 @@ public class RoutesShould {
     @Test
     public void returnMethodNotAllowedWhenPathIsContainedButForOtherMethod() {
         Routes routes = new Routes();
-        routes.add("GET", "/test", (req) -> HttpResponse.ok("OK"));
+        routes.add(HttpVerb.GET, "/test", (req) -> HttpResponse.ok("OK"));
 
-        HttpResponse response = routes.findAndApply(new HttpRequest("POST", "/test"));
+        HttpResponse response = routes.findAndApply(new HttpRequest(HttpVerb.POST, "/test"));
 
         assertEquals(405, response.statusCode());
     }
@@ -57,9 +57,9 @@ public class RoutesShould {
     @Test
     public void returnMethodNotAllowedWhenPathIsContainedButForOtherMethod2() {
         Routes routes = new Routes();
-        routes.add("POST", "/test", (req) -> HttpResponse.ok("OK"));
+        routes.add(HttpVerb.POST, "/test", (req) -> HttpResponse.ok("OK"));
 
-        HttpResponse response = routes.findAndApply(new HttpRequest("GET", "/test"));
+        HttpResponse response = routes.findAndApply(new HttpRequest(HttpVerb.GET, "/test"));
 
         assertEquals(405, response.statusCode());
     }
@@ -69,14 +69,14 @@ public class RoutesShould {
          Routes routes = new Routes();
          Function<HttpRequest, HttpResponse> callback1 = (request) -> HttpResponse.ok("OK");
          Function<HttpRequest, HttpResponse> callback2 = (request) -> HttpResponse.created("Created");
-         routes.add("GET", "/test", callback1);
-         routes.add("GET", "/test2", callback2);
+         routes.add(HttpVerb.GET, "/test", callback1);
+         routes.add(HttpVerb.GET, "/test2", callback2);
          assertTrue(routes.contains("/test"));
          assertTrue(routes.contains("/test2"));
-         HttpRequest request1 = new HttpRequest("GET", "/test");
+         HttpRequest request1 = new HttpRequest(HttpVerb.GET, "/test");
          HttpResponse response1 = routes.findAndApply(request1);
          assertEquals(200, response1.statusCode());
-         HttpRequest request2 = new HttpRequest("GET", "/test2");
+         HttpRequest request2 = new HttpRequest(HttpVerb.GET, "/test2");
          HttpResponse response2 = routes.findAndApply(request2);
          assertEquals(201, response2.statusCode());
      }

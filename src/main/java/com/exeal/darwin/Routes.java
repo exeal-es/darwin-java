@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class Routes {
-    private Map<String, Map<String, Function<HttpRequest, HttpResponse>>> routes;
+    private Map<String, Map<HttpVerb, Function<HttpRequest, HttpResponse>>> routes;
 
     public Routes() {
         this.routes = new HashMap<>();
@@ -16,7 +16,7 @@ public class Routes {
     }
 
     public HttpResponse findAndApply(HttpRequest request) {
-        Map<String, Function<HttpRequest, HttpResponse>> map = routes.get(request.path());
+        Map<HttpVerb, Function<HttpRequest, HttpResponse>> map = routes.get(request.path());
         if (map == null) {
             return HttpResponse.notFound("Not Found");
         } else {
@@ -28,8 +28,8 @@ public class Routes {
         }
     }
 
-    public void add(String verb, String path, Function<HttpRequest, HttpResponse> callback) {
-        Map<String, Function<HttpRequest, HttpResponse>> map = routes.getOrDefault(path, new HashMap<>());
+    public void add(HttpVerb verb, String path, Function<HttpRequest, HttpResponse> callback) {
+        Map<HttpVerb, Function<HttpRequest, HttpResponse>> map = routes.getOrDefault(path, new HashMap<>());
         map.put(verb, callback);
         routes.put(path, map);
     }
