@@ -23,11 +23,7 @@ public final class HttpRequest {
         return path;
     }
 
-    public String queryParam(String name) {
-        return queryParams.get(name);
-    }
-
-    public String pathParam(String name) {
-        throw new RuntimeException("Not implemented");
+    public QueryParams queryParams() {
+        return queryParams;
     }
 }

@@ -16,7 +16,7 @@ public class Application {
         resources = new Resources();
     }
 
-    public void get(String path, Function<HttpRequest, HttpResponse> callback) {
+    public void get(String path, Function<Request, HttpResponse> callback) {
         resources.add(HttpVerb.GET, new PathTemplate(path), new Handler(callback));
     }
 

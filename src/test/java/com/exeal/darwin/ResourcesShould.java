@@ -10,7 +10,7 @@ public class ResourcesShould {
      @Test
      public void returnCallbackWhenPathIsContained() {
          Resources resources = new Resources();
-         Function<HttpRequest, HttpResponse> callback = (request) -> HttpResponse.ok("OK");
+         Function<Request, HttpResponse> callback = (request) -> HttpResponse.ok("OK");
          resources.add(HttpVerb.GET, new PathTemplate("/test"), new Handler(callback));
 
          HttpRequest request = new HttpRequest(HttpVerb.GET, "/test");
@@ -52,8 +52,8 @@ public class ResourcesShould {
      @Test
      public void addMultipleRoutes() {
          Resources resources = new Resources();
-         Function<HttpRequest, HttpResponse> callback1 = (request) -> HttpResponse.ok("OK");
-         Function<HttpRequest, HttpResponse> callback2 = (request) -> HttpResponse.created("Created");
+         Function<Request, HttpResponse> callback1 = (request) -> HttpResponse.ok("OK");
+         Function<Request, HttpResponse> callback2 = (request) -> HttpResponse.created("Created");
          resources.add(HttpVerb.GET, new PathTemplate("/test"), new Handler(callback1));
          resources.add(HttpVerb.GET, new PathTemplate("/test2"), new Handler(callback2));
          HttpRequest request1 = new HttpRequest(HttpVerb.GET, "/test");

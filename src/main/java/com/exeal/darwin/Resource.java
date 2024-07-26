@@ -19,7 +19,7 @@ public final class Resource {
         }
 
         try {
-            return handler.apply(request);
+            return handler.apply(new Request(request.queryParams()));
         } catch (Exception e) {
             return HttpResponse.internalServerError(e.getMessage());
         }
