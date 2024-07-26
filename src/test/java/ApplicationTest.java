@@ -1,62 +1,84 @@
 import com.exeal.darwin.Application;
+import com.exeal.darwin.HttpResponse;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.net.ServerSocket;
 
 import static io.restassured.RestAssured.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ApplicationTest {
     @Test
-    public void testResponseStatus404() {
+    public void testResponseStatus404() throws IOException {
         // Arrange
         Application app = new Application();
-        app.run();
+        int port = findAvailableTcpPort();
+        app.run(port);
 
         // Act & Assert
         given()
                 .when()
-                .get("http://localhost:8080")
+                .get("http://localhost:" + port)
         .then()
                 .statusCode(404);
     }
 
+    private int findAvailableTcpPort() throws IOException {
+        try (ServerSocket serverSocket = new ServerSocket(0)) {
+            return serverSocket.getLocalPort();
+        }
+    }
+
     @Test
-    public void testHelloShouldRespondWith200Ok() {
+    public void testHelloShouldRespondWith200Ok() throws IOException {
         // Arrange
         Application app = new Application();
-        app.run();
+        app.get("/hello", (req) -> HttpResponse.ok("Hello!"));
+
+        int port = findAvailableTcpPort();
+        app.run(port);
 
         // Act & Assert
         given()
                 .when()
-                .get("http://localhost:8080/hello")
+                .get("http://localhost:" + port + "/hello")
                 .then()
                 .statusCode(200);
     }
 
     @Test
-    public void testPostToHelloShouldRespondWith201Created() {
+    public void testPostToHelloShouldRespondWith201Created() throws IOException {
         // Arrange
         Application app = new Application();
-        app.run();
+        int port = findAvailableTcpPort();
+        app.run(port);
 
         // Act & Assert
         given()
                 .when()
-                .post("http://localhost:8080/hello")
+                .post("http://localhost:" + port + "/hello")
                 .then()
                 .statusCode(201);
     }
 
     @Test
-    public void testPassQueryStringParameterAndReturnItInTheBody() {
+    public void testPassQueryStringParameterAndReturnItInTheBody() throws IOException {
         // Arrange
         Application app = new Application();
-        app.run();
+        app.get("/greet", (req) -> {
+            String name = req.queryParam("name");
+            String body = "Hello " + name + "!";
+            return HttpResponse.ok(body);
+        });
+
+        int port = findAvailableTcpPort();
+        app.run(port);
 
         // Act & Assert
         String body = given()
                 .when()
-                .get("http://localhost:8080/greet?name=Pedro")
+                .get("http://localhost:" + port + "/greet?name=Pedro")
                 .then()
                 .statusCode(200)
                 .extract()

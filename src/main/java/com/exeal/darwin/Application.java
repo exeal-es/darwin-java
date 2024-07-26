@@ -6,16 +6,20 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 public class Application {
-    public void run() {
-        Thread serverThread = new Thread(Application::listenHttpAndRespond);
+
+    public void run(int port) {
+        Thread serverThread = new Thread(() -> listenHttpAndRespond(port));
         serverThread.start();
     }
 
-    private static void listenHttpAndRespond() {
-        try (ServerSocket serverSocket = new ServerSocket(8080)) {
-            System.out.println("Server is listening on port 8080");
+    private void listenHttpAndRespond(int port) {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            System.out.println("Server is listening on port " + port);
 
             while(true){
                 try (Socket clientSocket = serverSocket.accept()) {
@@ -30,7 +34,7 @@ public class Application {
         }
     }
 
-    private static void handleClientMessage(Socket clientSocket) throws IOException {
+    private void handleClientMessage(Socket clientSocket) throws IOException {
         System.out.println("New client connected");
 
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -42,17 +46,21 @@ public class Application {
         out.flush();
     }
 
-    private static HttpResponse handleResponse(HttpRequest httpRequest) {
-        if (httpRequest.path().equals("/greet")) {
-            String name = httpRequest.queryParam("name");
-            String body = "Hello " + name + "!";
-            return HttpResponse.ok(body);
+    private HttpResponse handleResponse(HttpRequest httpRequest) {
+        if (routes.containsKey(httpRequest.path())) {
+            Function<HttpRequest, HttpResponse> callback = routes.get(httpRequest.path());
+            HttpResponse response = callback.apply(httpRequest);
+            return response;
         } else if (httpRequest.verb().equals("POST")) {
             return HttpResponse.created("Created!");
-        } else if (httpRequest.path().equals("/hello")) {
-            return HttpResponse.ok("Welcome!");
         } else {
             return HttpResponse.notFound("Not Found");
         }
+    }
+
+    private final Map<String, Function<HttpRequest, HttpResponse>> routes = new HashMap<>();
+
+    public void get(String path, Function<HttpRequest, HttpResponse> callback) {
+        routes.put(path, callback);
     }
 }
