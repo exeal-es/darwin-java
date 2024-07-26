@@ -48,9 +48,13 @@ public class Application {
 
     private HttpResponse handleResponse(HttpRequest httpRequest) {
         if (routes.containsKey(httpRequest.path())) {
-            Function<HttpRequest, HttpResponse> callback = routes.get(httpRequest.path());
-            HttpResponse response = callback.apply(httpRequest);
-            return response;
+            if (httpRequest.verb().equals("GET")) {
+                Function<HttpRequest, HttpResponse> callback = routes.get(httpRequest.path());
+                HttpResponse response = callback.apply(httpRequest);
+                return response;
+            } else {
+                return HttpResponse.methodNotAllowed();
+            }
         } else if (httpRequest.verb().equals("POST")) {
             return HttpResponse.created("Created!");
         } else {

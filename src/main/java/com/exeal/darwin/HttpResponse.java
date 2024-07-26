@@ -21,6 +21,10 @@ public class HttpResponse {
         return new HttpResponse("404 Not Found", body);
     }
 
+    public static HttpResponse methodNotAllowed() {
+        return new HttpResponse("405 Method Not Allowed", "");
+    }
+
     public String payload() {
         return "HTTP/1.1 " + statusCodeString + "\r\n\r\n" + body;
     }

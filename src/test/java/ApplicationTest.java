@@ -87,4 +87,21 @@ public class ApplicationTest {
 
         assertEquals("Hello Pedro!", body);
     }
+
+    @Test
+    public void testRequestResourceWithMethodNotConfigured() throws IOException {
+        // Arrange
+        Application app = new Application();
+        app.get("/hello", (req) -> HttpResponse.ok("Hello!"));
+
+        int port = findAvailableTcpPort();
+        app.run(port);
+
+        // Act & Assert
+        given()
+                .when()
+                .post("http://localhost:" + port + "/hello")
+                .then()
+                .statusCode(405);
+    }
 }
