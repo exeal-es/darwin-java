@@ -1,4 +1,4 @@
-import com.exeal.darwin.Main;
+import com.exeal.darwin.Application;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.*;
@@ -8,7 +8,8 @@ public class ApplicationTest {
     @Test
     public void testResponseStatus404() {
         // Arrange
-        Main.main(new String[]{});
+        Application app = new Application();
+        app.run();
 
         // Act & Assert
         given()
@@ -21,7 +22,8 @@ public class ApplicationTest {
     @Test
     public void testHelloShouldRespondWith200Ok() {
         // Arrange
-        Main.main(new String[]{});
+        Application app = new Application();
+        app.run();
 
         // Act & Assert
         given()
@@ -34,7 +36,8 @@ public class ApplicationTest {
     @Test
     public void testPostToHelloShouldRespondWith201Created() {
         // Arrange
-        Main.main(new String[]{});
+        Application app = new Application();
+        app.run();
 
         // Act & Assert
         given()
@@ -47,7 +50,8 @@ public class ApplicationTest {
     @Test
     public void testPassQueryStringParameterAndReturnItInTheBody() {
         // Arrange
-        Main.main(new String[]{});
+        Application app = new Application();
+        app.run();
 
         // Act & Assert
         String body = given()
