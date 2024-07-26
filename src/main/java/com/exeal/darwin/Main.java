@@ -46,13 +46,13 @@ public class Main {
         if (httpRequest.path().equals("/greet")) {
             String name = httpRequest.queryParam("name");
             String body = "Hello " + name + "!";
-            return new HttpResponse("200 OK", body);
+            return HttpResponse.ok(body);
         } else if (httpRequest.verb().equals("POST")) {
-            return new HttpResponse("201 Created", "Created!");
+            return HttpResponse.created("Created!");
         } else if (httpRequest.path().equals("/hello")) {
-            return new HttpResponse("200 OK", "Welcome!");
+            return HttpResponse.ok("Welcome!");
         } else {
-            return new HttpResponse("404 Not Found", "Not Found");
+            return HttpResponse.notFound("Not Found");
         }
     }
 }
