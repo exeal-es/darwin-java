@@ -15,8 +15,12 @@ public class Routes {
         return routes.containsKey(path);
     }
 
-    public Function<HttpRequest, HttpResponse> find(HttpRequest request) {
-        return routes.get(request.path());
+    public HttpResponse findAndApply(HttpRequest request) {
+        Function<HttpRequest, HttpResponse> callback = routes.get(request.path());
+        if (callback == null) {
+            return HttpResponse.notFound("Not Found");
+        }
+        return callback.apply(request);
     }
 
     public void add(String verb, String path, Function<HttpRequest, HttpResponse> callback) {

@@ -47,9 +47,7 @@ public class Application {
     private HttpResponse handleResponse(HttpRequest httpRequest) {
         if (routes.contains(httpRequest.path())) {
             if (httpRequest.verb().equals("GET")) {
-                Function<HttpRequest, HttpResponse> callback = routes.find(httpRequest);
-                HttpResponse response = callback.apply(httpRequest);
-                return response;
+                return routes.findAndApply(httpRequest);
             } else {
                 return HttpResponse.methodNotAllowed();
             }
