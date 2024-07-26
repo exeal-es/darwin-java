@@ -3,16 +3,15 @@ package com.exeal.darwin;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QueryParams {
+public class ParameterBag {
     private final Map<String, String> paramsByName;
 
-    public QueryParams(Map<String, String> paramsByName) {
+    public ParameterBag(Map<String, String> paramsByName) {
         this.paramsByName = paramsByName;
     }
 
-    static QueryParams empty() {
-        Map<String, String> queryParams = new HashMap<>();
-        return new QueryParams(queryParams);
+    static ParameterBag empty() {
+        return new ParameterBag(new HashMap<>());
     }
 
     public String get(String name) {

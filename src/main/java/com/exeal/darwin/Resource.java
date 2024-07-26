@@ -19,7 +19,9 @@ public final class Resource {
         }
 
         try {
-            return handler.apply(new Request(request.queryParams(), request.path(), pathTemplate));
+            var pathParameterExtractor = new PathParameterExtractor(pathTemplate.value(), request.path());
+            var pathParams = pathParameterExtractor.extractParams();
+            return handler.apply(new Request(request.queryParams(), pathParams));
         } catch (Exception e) {
             return HttpResponse.internalServerError(e.getMessage());
         }

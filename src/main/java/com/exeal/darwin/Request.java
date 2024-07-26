@@ -1,11 +1,11 @@
 package com.exeal.darwin;
 
-public record Request(QueryParams queryParams, String path, PathTemplate pathTemplate) {
+public record Request(ParameterBag queryParams, ParameterBag pathParams) {
     public String queryParam(String name) {
-        return this.queryParams.get(name);
+        return queryParams.get(name);
     }
 
     public String pathParam(String name) {
-        return pathTemplate.extractParam(path, name);
+        return pathParams.get(name);
     }
 }

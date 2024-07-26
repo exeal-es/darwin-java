@@ -16,7 +16,7 @@ public class HttpRequestReader {
         String verb = requestParts[0];
         String fullPath = requestParts[1];
         String[] pathParts = fullPath.split("\\?");
-        QueryParams queryParams = pathParts.length > 1 ? new QueryString(pathParts[1]).readQueryParams() : QueryParams.empty();
+        ParameterBag queryParams = pathParts.length > 1 ? new QueryString(pathParts[1]).readQueryParams() : ParameterBag.empty();
 
         String path = pathParts[0];
         return new HttpRequest(HttpVerb.parse(verb), path, queryParams);

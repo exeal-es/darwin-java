@@ -10,7 +10,7 @@ public final class QueryString {
         this.queryString = queryString;
     }
 
-    public QueryParams readQueryParams() {
+    public ParameterBag readQueryParams() {
         Map<String, String> queryParams = new HashMap<>();
         String[] pairs = queryString.split("&");
         for (String pair : pairs) {
@@ -19,6 +19,6 @@ public final class QueryString {
                 queryParams.put(kv[0], kv[1]);
             }
         }
-        return new QueryParams(queryParams);
+        return new ParameterBag(queryParams);
     }
 }
