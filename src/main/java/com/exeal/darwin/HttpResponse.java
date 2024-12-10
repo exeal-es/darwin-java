@@ -1,5 +1,10 @@
 package com.exeal.darwin;
 
+import com.exeal.darwin.httpresponse.ForbiddenResponse;
+import com.exeal.darwin.httpresponse.InternalServerErrorResponse;
+import com.exeal.darwin.httpresponse.MethodNotAllowedResponse;
+import com.exeal.darwin.httpresponse.NotFoundResponse;
+
 public abstract class HttpResponse {
     protected final int statusCode;
     protected final String body;
@@ -18,19 +23,19 @@ public abstract class HttpResponse {
     }
 
     public static HttpResponse notFound() {
-        return new ErrorResponse(404, "Not Found");
+        return new NotFoundResponse();
     }
 
     public static HttpResponse methodNotAllowed() {
-        return new ErrorResponse(405, "");
+        return new MethodNotAllowedResponse();
     }
 
     public static HttpResponse internalServerError(String body) {
-        return new ErrorResponse(500, body);
+        return new InternalServerErrorResponse(body);
     }
 
     public static HttpResponse forbidden() {
-        return new ErrorResponse(403, "Access not allowed");
+        return new ForbiddenResponse();
     }
 
     public String payload() {
