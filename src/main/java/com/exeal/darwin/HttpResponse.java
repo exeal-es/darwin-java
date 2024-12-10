@@ -1,42 +1,42 @@
 package com.exeal.darwin;
 
-public class HttpResponse {
+public abstract class HttpResponse {
     private final int statusCode;
     private final String body;
     private final String contentType;
 
-    private HttpResponse(int statusCode, String body) {
+    protected HttpResponse(int statusCode, String body) {
         this(statusCode, body, "text/plain");
     }
 
-    private HttpResponse(int statusCode, String body, String contentType) {
+    protected HttpResponse(int statusCode, String body, String contentType) {
         this.statusCode = statusCode;
         this.body = body;
         this.contentType = contentType;
     }
 
     public static HttpResponse ok(String body) {
-        return new HttpResponse(200, body);
+        return new SuccessfulResponse(200, body);
     }
 
     public static HttpResponse created(String body) {
-        return new HttpResponse(201, body);
+        return new SuccessfulResponse(201, body);
     }
 
     public static HttpResponse notFound() {
-        return new HttpResponse(404, "Not Found", "application/problem+json");
+        return new ErrorResponse(404, "Not Found", "application/problem+json");
     }
 
     public static HttpResponse methodNotAllowed() {
-        return new HttpResponse(405, "", "application/problem+json");
+        return new ErrorResponse(405, "", "application/problem+json");
     }
 
     public static HttpResponse internalServerError(String body) {
-        return new HttpResponse(500, body);
+        return new SuccessfulResponse(500, body);
     }
 
     public static HttpResponse forbidden() {
-        return new HttpResponse(403, "Access not allowed", "application/problem+json");
+        return new ErrorResponse(403, "Access not allowed", "application/problem+json");
     }
 
     public String payload() {
@@ -80,7 +80,7 @@ public class HttpResponse {
     }
 
     private boolean isError() {
-        return statusCode >= 400;
+        return statusCode >= 400 && statusCode < 500;
     }
 
     private static String getProblemDetailsTemplate(String statusCodeString, String detail) {
