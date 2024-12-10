@@ -89,4 +89,27 @@ public class ApplicationTest {
                 .then()
                 .statusCode(405);
     }
+
+    @Test
+    public void testReturnProblemDetailsForForbiddenError() throws IOException {
+        // Arrange
+        Application app = new Application();
+
+        int port = findAvailableTcpPort();
+        app.run(port);
+
+        // Act & Assert
+        String body = given()
+                .when()
+                .post("http://localhost:" + port + "/hello")
+                .then()
+                .contentType("application/problem+json")
+                .statusCode(404)
+                .extract()
+                .body()
+                .asString();
+
+        String expected = "{\"title\":\"Not Found\",\"detail\":\"Resource not found\"}";
+        assertEquals(expected, body);
+    }
 }

@@ -3,10 +3,16 @@ package com.exeal.darwin;
 public class HttpResponse {
     private final int statusCode;
     private final String body;
+    private final String contentType;
 
     private HttpResponse(int statusCode, String body) {
+        this(statusCode, body, "text/plain");
+    }
+
+    private HttpResponse(int statusCode, String body, String contentType) {
         this.statusCode = statusCode;
         this.body = body;
+        this.contentType = contentType;
     }
 
     public static HttpResponse ok(String body) {
@@ -18,7 +24,7 @@ public class HttpResponse {
     }
 
     public static HttpResponse notFound(String body) {
-        return new HttpResponse(404, body);
+        return new HttpResponse(404, body, "application/problem+json");
     }
 
     public static HttpResponse methodNotAllowed() {
@@ -30,7 +36,11 @@ public class HttpResponse {
     }
 
     public String payload() {
-        return "HTTP/1.1 " + statusCode + " " + statusCodeString() + "\r\n\r\n" + body;
+        return "HTTP/1.1 " + statusCode + " " + statusCodeString() + "\r\n" + contentTypeString() + "\r\n\r\n" + body();
+    }
+
+    private String contentTypeString() {
+        return "Content-Type: " + contentType;
     }
 
     private String statusCodeString() {
@@ -49,6 +59,9 @@ public class HttpResponse {
     }
 
     public String body() {
+        if (statusCode == 404) {
+            return "{\"title\":\"Not Found\",\"detail\":\"Resource not found\"}";
+        }
         return body;
     }
 }
