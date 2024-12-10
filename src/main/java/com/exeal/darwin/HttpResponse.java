@@ -1,8 +1,8 @@
 package com.exeal.darwin;
 
 public abstract class HttpResponse {
-    private final int statusCode;
-    private final String body;
+    protected final int statusCode;
+    protected final String body;
     private final String contentType;
 
     protected HttpResponse(int statusCode, String body) {
@@ -47,7 +47,7 @@ public abstract class HttpResponse {
         return "Content-Type: " + contentType;
     }
 
-    private String statusCodeString() {
+    protected String statusCodeString() {
         return switch (statusCode) {
             case 200 -> "OK";
             case 201 -> "Created";
@@ -59,31 +59,11 @@ public abstract class HttpResponse {
         };
     }
 
-    private String problemDetailString() {
-        return switch (statusCode) {
-            case 403 -> "Access not allowed";
-            case 404 -> "Resource not found";
-            case 405 -> "Method not allowed";
-            default -> "";
-        };
-    }
-
     public int statusCode() {
         return statusCode;
     }
 
     public String body() {
-        if (isError()) {
-            return getProblemDetailsTemplate(statusCodeString(), problemDetailString());
-        }
         return body;
-    }
-
-    private boolean isError() {
-        return statusCode >= 400 && statusCode < 500;
-    }
-
-    private static String getProblemDetailsTemplate(String statusCodeString, String detail) {
-        return "{\"title\":\"" + statusCodeString + "\",\"detail\":\"" + detail + "\"}";
     }
 }
