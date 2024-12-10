@@ -66,14 +66,21 @@ public class HttpResponse {
     public String body() {
         String statusCodeString = statusCodeString();
         if (statusCode == 403) {
-            return "{\"title\":\"" + statusCodeString + "\",\"detail\":\"Access not allowed\"}";
+            String detail = "Access not allowed";
+            return getProblemDetailsTemplate(statusCodeString, detail);
         }
         if (statusCode == 404) {
-            return "{\"title\":\"" + statusCodeString + "\",\"detail\":\"Resource not found\"}";
+            String detail = "Resource not found";
+            return getProblemDetailsTemplate(statusCodeString, detail);
         }
         if (statusCode == 405) {
-            return "{\"title\":\"" + statusCodeString + "\",\"detail\":\"Method not allowed\"}";
+            String detail = "Method not allowed";
+            return getProblemDetailsTemplate(statusCodeString, detail);
         }
         return body;
+    }
+
+    private static String getProblemDetailsTemplate(String statusCodeString, String detail) {
+        return "{\"title\":\"" + statusCodeString + "\",\"detail\":\"" + detail + "\"}";
     }
 }
