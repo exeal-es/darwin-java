@@ -64,14 +64,15 @@ public class HttpResponse {
     }
 
     public String body() {
+        String statusCodeString = statusCodeString();
         if (statusCode == 403) {
-            return "{\"title\":\"Forbidden\",\"detail\":\"Access not allowed\"}";
+            return "{\"title\":\"" + statusCodeString + "\",\"detail\":\"Access not allowed\"}";
         }
         if (statusCode == 404) {
-            return "{\"title\":\"Not Found\",\"detail\":\"Resource not found\"}";
+            return "{\"title\":\"" + statusCodeString + "\",\"detail\":\"Resource not found\"}";
         }
         if (statusCode == 405) {
-            return "{\"title\":\"Method Not Allowed\",\"detail\":\"Method not allowed\"}";
+            return "{\"title\":\"" + statusCodeString + "\",\"detail\":\"Method not allowed\"}";
         }
         return body;
     }
