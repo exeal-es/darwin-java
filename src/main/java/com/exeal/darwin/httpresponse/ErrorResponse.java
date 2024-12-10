@@ -1,4 +1,6 @@
-package com.exeal.darwin;
+package com.exeal.darwin.httpresponse;
+
+import com.exeal.darwin.HttpResponse;
 
 public abstract class ErrorResponse extends HttpResponse {
     public ErrorResponse(int statusCode, String title) {

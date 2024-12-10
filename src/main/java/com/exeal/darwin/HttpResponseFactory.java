@@ -1,9 +1,11 @@
 package com.exeal.darwin;
 
+import com.exeal.darwin.httpresponse.CreatedResponse;
 import com.exeal.darwin.httpresponse.ForbiddenResponse;
 import com.exeal.darwin.httpresponse.InternalServerErrorResponse;
 import com.exeal.darwin.httpresponse.MethodNotAllowedResponse;
 import com.exeal.darwin.httpresponse.NotFoundResponse;
+import com.exeal.darwin.httpresponse.OkResponse;
 
 public class HttpResponseFactory {
     public static HttpResponse ok(String body) {

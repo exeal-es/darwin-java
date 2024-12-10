@@ -1,4 +1,6 @@
-package com.exeal.darwin;
+package com.exeal.darwin.httpresponse;
+
+import com.exeal.darwin.HttpResponse;
 
 public class OkResponse extends HttpResponse {
     public OkResponse(String body) {

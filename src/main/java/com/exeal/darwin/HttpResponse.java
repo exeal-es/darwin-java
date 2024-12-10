@@ -27,7 +27,7 @@ public abstract class HttpResponse {
         return statusCode;
     }
 
-    public String body() {
+    protected String body() {
         return body;
     }
 }
