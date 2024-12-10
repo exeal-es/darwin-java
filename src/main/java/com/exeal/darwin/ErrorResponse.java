@@ -1,12 +1,25 @@
 package com.exeal.darwin;
 
 public class ErrorResponse extends HttpResponse {
-    public ErrorResponse(int statusCode, String title, String contentType) {
-        super(statusCode, title, contentType);
+    public ErrorResponse(int statusCode, String title) {
+        super(statusCode, title);
+    }
+
+    protected String contentType() {
+        return "application/problem+json";
     }
 
     public String body() {
         return getProblemDetailsTemplate(statusCodeString(), problemDetailString());
+    }
+
+    protected String statusCodeString() {
+        return switch (statusCode) {
+            case 403 -> "Forbidden";
+            case 404 -> "Not Found";
+            case 405 -> "Method Not Allowed";
+            default -> "";
+        };
     }
 
     private String problemDetailString() {

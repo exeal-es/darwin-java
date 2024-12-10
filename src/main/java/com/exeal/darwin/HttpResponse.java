@@ -3,16 +3,10 @@ package com.exeal.darwin;
 public abstract class HttpResponse {
     protected final int statusCode;
     protected final String body;
-    private final String contentType;
 
     protected HttpResponse(int statusCode, String body) {
-        this(statusCode, body, "text/plain");
-    }
-
-    protected HttpResponse(int statusCode, String body, String contentType) {
         this.statusCode = statusCode;
         this.body = body;
-        this.contentType = contentType;
     }
 
     public static HttpResponse ok(String body) {
@@ -24,11 +18,11 @@ public abstract class HttpResponse {
     }
 
     public static HttpResponse notFound() {
-        return new ErrorResponse(404, "Not Found", "application/problem+json");
+        return new ErrorResponse(404, "Not Found");
     }
 
     public static HttpResponse methodNotAllowed() {
-        return new ErrorResponse(405, "", "application/problem+json");
+        return new ErrorResponse(405, "");
     }
 
     public static HttpResponse internalServerError(String body) {
@@ -36,7 +30,7 @@ public abstract class HttpResponse {
     }
 
     public static HttpResponse forbidden() {
-        return new ErrorResponse(403, "Access not allowed", "application/problem+json");
+        return new ErrorResponse(403, "Access not allowed");
     }
 
     public String payload() {
@@ -44,16 +38,17 @@ public abstract class HttpResponse {
     }
 
     private String contentTypeString() {
-        return "Content-Type: " + contentType;
+        return "Content-Type: " + contentType();
+    }
+
+    protected String contentType() {
+        return "text/plain";
     }
 
     protected String statusCodeString() {
         return switch (statusCode) {
             case 200 -> "OK";
             case 201 -> "Created";
-            case 403 -> "Forbidden";
-            case 404 -> "Not Found";
-            case 405 -> "Method Not Allowed";
             case 500 -> "Internal Server Error";
             default -> "";
         };
