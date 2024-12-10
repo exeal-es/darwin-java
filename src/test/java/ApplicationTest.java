@@ -1,5 +1,5 @@
 import com.exeal.darwin.Application;
-import com.exeal.darwin.HttpResponse;
+import com.exeal.darwin.HttpResponseFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class ApplicationTest {
     public void testHelloShouldRespondWith200Ok() throws IOException {
         // Arrange
         Application app = new Application();
-        app.get("/hello", (req) -> HttpResponse.ok("Hello!"));
+        app.get("/hello", (req) -> HttpResponseFactory.ok("Hello!"));
 
         int port = findAvailableTcpPort();
         app.run(port);
@@ -54,7 +54,7 @@ public class ApplicationTest {
         app.get("/greet", (req) -> {
             String name = req.queryParam("name");
             String body = "Hello " + name + "!";
-            return HttpResponse.ok(body);
+            return HttpResponseFactory.ok(body);
         });
 
         int port = findAvailableTcpPort();
@@ -77,7 +77,7 @@ public class ApplicationTest {
     public void testRequestResourceWithMethodNotConfigured() throws IOException {
         // Arrange
         Application app = new Application();
-        app.get("/hello", (req) -> HttpResponse.ok("Hello!"));
+        app.get("/hello", (req) -> HttpResponseFactory.ok("Hello!"));
 
         int port = findAvailableTcpPort();
         app.run(port);

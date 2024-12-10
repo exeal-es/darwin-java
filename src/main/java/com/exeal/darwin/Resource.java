@@ -15,7 +15,7 @@ public final class Resource {
     public HttpResponse accept(HttpRequest request) {
         var handler = handlersByVerb.get(request.verb());
         if (handler == null) {
-            return HttpResponse.methodNotAllowed();
+            return HttpResponseFactory.methodNotAllowed();
         }
 
         try {
@@ -23,7 +23,7 @@ public final class Resource {
             var pathParams = pathParameterExtractor.extractParams();
             return handler.apply(new Request(request.queryParams(), pathParams));
         } catch (Exception e) {
-            return HttpResponse.internalServerError(e.getMessage());
+            return HttpResponseFactory.internalServerError(e.getMessage());
         }
     }
 

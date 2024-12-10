@@ -10,7 +10,7 @@ public class ResourcesShould {
      @Test
      public void returnCallbackWhenPathIsContained() {
          Resources resources = new Resources();
-         Function<Request, HttpResponse> callback = (request) -> HttpResponse.ok("OK");
+         Function<Request, HttpResponse> callback = (request) -> HttpResponseFactory.ok("OK");
          resources.add(HttpVerb.GET, new PathTemplate("/test"), new Handler(callback));
 
          HttpRequest request = new HttpRequest(HttpVerb.GET, "/test");
@@ -32,7 +32,7 @@ public class ResourcesShould {
     @Test
     public void returnMethodNotAllowedWhenPathIsContainedButForOtherMethod() {
         Resources resources = new Resources();
-        resources.add(HttpVerb.GET, new PathTemplate("/test"), new Handler((req) -> HttpResponse.ok("OK")));
+        resources.add(HttpVerb.GET, new PathTemplate("/test"), new Handler((req) -> HttpResponseFactory.ok("OK")));
 
         HttpResponse response = resources.findAndApply(new HttpRequest(HttpVerb.POST, "/test"));
 
@@ -42,7 +42,7 @@ public class ResourcesShould {
     @Test
     public void returnMethodNotAllowedWhenPathIsContainedButForOtherMethod2() {
         Resources resources = new Resources();
-        resources.add(HttpVerb.POST, new PathTemplate("/test"), new Handler((req) -> HttpResponse.ok("OK")));
+        resources.add(HttpVerb.POST, new PathTemplate("/test"), new Handler((req) -> HttpResponseFactory.ok("OK")));
 
         HttpResponse response = resources.findAndApply(new HttpRequest(HttpVerb.GET, "/test"));
 
@@ -52,8 +52,8 @@ public class ResourcesShould {
      @Test
      public void addMultipleRoutes() {
          Resources resources = new Resources();
-         Function<Request, HttpResponse> callback1 = (request) -> HttpResponse.ok("OK");
-         Function<Request, HttpResponse> callback2 = (request) -> HttpResponse.created("Created");
+         Function<Request, HttpResponse> callback1 = (request) -> HttpResponseFactory.ok("OK");
+         Function<Request, HttpResponse> callback2 = (request) -> HttpResponseFactory.created("Created");
          resources.add(HttpVerb.GET, new PathTemplate("/test"), new Handler(callback1));
          resources.add(HttpVerb.GET, new PathTemplate("/test2"), new Handler(callback2));
          HttpRequest request1 = new HttpRequest(HttpVerb.GET, "/test");
@@ -80,7 +80,7 @@ public class ResourcesShould {
     @Test
     public void parsePathParams() {
         Resources resources = new Resources();
-        resources.add(HttpVerb.GET, new PathTemplate("/test/{id}"), new Handler((req) -> HttpResponse.ok(req.pathParam("id"))));
+        resources.add(HttpVerb.GET, new PathTemplate("/test/{id}"), new Handler((req) -> HttpResponseFactory.ok(req.pathParam("id"))));
 
         HttpResponse response = resources.findAndApply(new HttpRequest(HttpVerb.GET, "/test/123"));
 
