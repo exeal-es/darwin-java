@@ -18,6 +18,7 @@ public class ErrorResponse extends HttpResponse {
             case 403 -> "Forbidden";
             case 404 -> "Not Found";
             case 405 -> "Method Not Allowed";
+            case 500 -> "Internal Server Error";
             default -> "";
         };
     }
@@ -27,6 +28,7 @@ public class ErrorResponse extends HttpResponse {
             case 403 -> "Access not allowed";
             case 404 -> "Resource not found";
             case 405 -> "Method not allowed";
+            case 500 -> body;
             default -> "";
         };
     }

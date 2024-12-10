@@ -39,4 +39,11 @@ public class HttpResponseShould {
         assertEquals("HTTP/1.1 405 Method Not Allowed\r\n" +
                 "Content-Type: application/problem+json\r\n\r\n{\"title\":\"Method Not Allowed\",\"detail\":\"Method not allowed\"}", response.payload());
     }
+
+    @Test
+    public void create_internal_server_error() {
+        HttpResponse response = HttpResponse.internalServerError("La has liado pollito!");
+        assertEquals("HTTP/1.1 500 Internal Server Error\r\n" +
+                "Content-Type: application/problem+json\r\n\r\n{\"title\":\"Internal Server Error\",\"detail\":\"La has liado pollito!\"}", response.payload());
+    }
 }

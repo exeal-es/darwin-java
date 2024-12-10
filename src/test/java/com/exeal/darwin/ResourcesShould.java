@@ -74,7 +74,7 @@ public class ResourcesShould {
         HttpResponse response = resources.findAndApply(new HttpRequest(HttpVerb.GET, "/test"));
 
         assertEquals(500, response.statusCode());
-        assertEquals("Error", response.body());
+        assertEquals("{\"title\":\"Internal Server Error\",\"detail\":\"Error\"}", response.body());
     }
 
     @Test

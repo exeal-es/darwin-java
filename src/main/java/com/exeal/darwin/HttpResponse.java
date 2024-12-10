@@ -26,7 +26,7 @@ public abstract class HttpResponse {
     }
 
     public static HttpResponse internalServerError(String body) {
-        return new SuccessfulResponse(500, body);
+        return new ErrorResponse(500, body);
     }
 
     public static HttpResponse forbidden() {
@@ -49,7 +49,6 @@ public abstract class HttpResponse {
         return switch (statusCode) {
             case 200 -> "OK";
             case 201 -> "Created";
-            case 500 -> "Internal Server Error";
             default -> "";
         };
     }
