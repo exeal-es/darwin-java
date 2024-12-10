@@ -59,25 +59,28 @@ public class HttpResponse {
         };
     }
 
+    private String problemDetailString() {
+        return switch (statusCode) {
+            case 403 -> "Access not allowed";
+            case 404 -> "Resource not found";
+            case 405 -> "Method not allowed";
+            default -> "";
+        };
+    }
+
     public int statusCode() {
         return statusCode;
     }
 
     public String body() {
-        String statusCodeString = statusCodeString();
-        if (statusCode == 403) {
-            String detail = "Access not allowed";
-            return getProblemDetailsTemplate(statusCodeString, detail);
-        }
-        if (statusCode == 404) {
-            String detail = "Resource not found";
-            return getProblemDetailsTemplate(statusCodeString, detail);
-        }
-        if (statusCode == 405) {
-            String detail = "Method not allowed";
-            return getProblemDetailsTemplate(statusCodeString, detail);
+        if (isError()) {
+            return getProblemDetailsTemplate(statusCodeString(), problemDetailString());
         }
         return body;
+    }
+
+    private boolean isError() {
+        return statusCode >= 400;
     }
 
     private static String getProblemDetailsTemplate(String statusCodeString, String detail) {
