@@ -21,8 +21,22 @@ public class HttpResponseShould {
 
     @Test
     public void create_not_found() {
-        HttpResponse response = HttpResponse.notFound("Hello World!");
+        HttpResponse response = HttpResponse.notFound();
         assertEquals("HTTP/1.1 404 Not Found\r\n" +
                 "Content-Type: application/problem+json\r\n\r\n{\"title\":\"Not Found\",\"detail\":\"Resource not found\"}", response.payload());
+    }
+
+    @Test
+    public void create_forbidden() {
+        HttpResponse response = HttpResponse.forbidden();
+        assertEquals("HTTP/1.1 403 Forbidden\r\n" +
+                "Content-Type: application/problem+json\r\n\r\n{\"title\":\"Forbidden\",\"detail\":\"Access not allowed\"}", response.payload());
+    }
+
+    @Test
+    public void create_method_not_allowed() {
+        HttpResponse response = HttpResponse.methodNotAllowed();
+        assertEquals("HTTP/1.1 405 Method Not Allowed\r\n" +
+                "Content-Type: application/problem+json\r\n\r\n{\"title\":\"Method Not Allowed\",\"detail\":\"Method not allowed\"}", response.payload());
     }
 }

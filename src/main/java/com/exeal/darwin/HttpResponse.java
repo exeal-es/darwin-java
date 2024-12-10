@@ -23,16 +23,20 @@ public class HttpResponse {
         return new HttpResponse(201, body);
     }
 
-    public static HttpResponse notFound(String body) {
-        return new HttpResponse(404, body, "application/problem+json");
+    public static HttpResponse notFound() {
+        return new HttpResponse(404, "Not Found", "application/problem+json");
     }
 
     public static HttpResponse methodNotAllowed() {
-        return new HttpResponse(405, "");
+        return new HttpResponse(405, "", "application/problem+json");
     }
 
     public static HttpResponse internalServerError(String body) {
         return new HttpResponse(500, body);
+    }
+
+    public static HttpResponse forbidden() {
+        return new HttpResponse(403, "Access not allowed", "application/problem+json");
     }
 
     public String payload() {
@@ -47,6 +51,7 @@ public class HttpResponse {
         return switch (statusCode) {
             case 200 -> "OK";
             case 201 -> "Created";
+            case 403 -> "Forbidden";
             case 404 -> "Not Found";
             case 405 -> "Method Not Allowed";
             case 500 -> "Internal Server Error";
@@ -59,8 +64,14 @@ public class HttpResponse {
     }
 
     public String body() {
+        if (statusCode == 403) {
+            return "{\"title\":\"Forbidden\",\"detail\":\"Access not allowed\"}";
+        }
         if (statusCode == 404) {
             return "{\"title\":\"Not Found\",\"detail\":\"Resource not found\"}";
+        }
+        if (statusCode == 405) {
+            return "{\"title\":\"Method Not Allowed\",\"detail\":\"Method not allowed\"}";
         }
         return body;
     }

@@ -22,7 +22,7 @@ public class Resources {
     public HttpResponse findAndApply(HttpRequest request) {
         var resource = findResource(request.path());
         if (resource == null) {
-            return HttpResponse.notFound("Not Found");
+            return HttpResponse.notFound();
         }
         return resource.accept(request);
     }
