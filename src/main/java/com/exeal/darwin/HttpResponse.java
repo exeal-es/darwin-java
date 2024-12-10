@@ -21,13 +21,7 @@ public abstract class HttpResponse {
         return "text/plain";
     }
 
-    protected String statusCodeString() {
-        return switch (statusCode) {
-            case 200 -> "OK";
-            case 201 -> "Created";
-            default -> "";
-        };
-    }
+    protected abstract String statusCodeString();
 
     public int statusCode() {
         return statusCode;

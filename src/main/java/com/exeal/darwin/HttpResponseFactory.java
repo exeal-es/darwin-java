@@ -7,11 +7,11 @@ import com.exeal.darwin.httpresponse.NotFoundResponse;
 
 public class HttpResponseFactory {
     public static HttpResponse ok(String body) {
-        return new SuccessfulResponse(200, body);
+        return new OkResponse(body);
     }
 
     public static HttpResponse created(String body) {
-        return new SuccessfulResponse(201, body);
+        return new CreatedResponse(body);
     }
 
     public static HttpResponse notFound() {

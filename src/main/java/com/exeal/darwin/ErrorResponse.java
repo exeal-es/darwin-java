@@ -1,6 +1,6 @@
 package com.exeal.darwin;
 
-public class ErrorResponse extends HttpResponse {
+public abstract class ErrorResponse extends HttpResponse {
     public ErrorResponse(int statusCode, String title) {
         super(statusCode, title);
     }
@@ -11,16 +11,6 @@ public class ErrorResponse extends HttpResponse {
 
     public String body() {
         return getProblemDetailsTemplate(statusCodeString(), problemDetailString());
-    }
-
-    protected String statusCodeString() {
-        return switch (statusCode) {
-            case 403 -> "Forbidden";
-            case 404 -> "Not Found";
-            case 405 -> "Method Not Allowed";
-            case 500 -> "Internal Server Error";
-            default -> "";
-        };
     }
 
     private String problemDetailString() {
