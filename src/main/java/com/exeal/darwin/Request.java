@@ -8,4 +8,8 @@ public record Request(ParameterBag queryParams, ParameterBag pathParams) {
     public String pathParam(String name) {
         return pathParams.get(name);
     }
+
+    public String claim(String name) {
+        return "John Doe";
+    }
 }

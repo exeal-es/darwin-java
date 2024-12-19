@@ -16,8 +16,12 @@ public class Application {
         resources = new Resources();
     }
 
-    public void get(String path, Function<Request, HttpResponse> callback) {
+    public void get(String path, boolean isSecured, Function<Request, HttpResponse> callback) {
         resources.add(HttpVerb.GET, new PathTemplate(path), new Handler(callback));
+    }
+
+    public void get(String path, Function<Request, HttpResponse> callback) {
+        get(path, false, callback);
     }
 
     public void run(int port) {
