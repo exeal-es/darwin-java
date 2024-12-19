@@ -2,6 +2,8 @@ package com.exeal.darwin;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpRequestReader {
     static HttpRequest readHttpRequest(BufferedReader in) throws IOException {
@@ -20,9 +22,20 @@ public class HttpRequestReader {
 
         String path = pathParts[0];
 
-        ParameterBag headers = ParameterBag.empty();
+        ParameterBag headers = readHeaders(in);
 
         return new HttpRequest(HttpVerb.parse(verb), path, queryParams, headers);
     }
 
+    private static ParameterBag readHeaders(BufferedReader in) throws IOException {
+        Map<String, String> headersMap = new HashMap<>();
+        String line;
+        while ((line = in.readLine()) != null && !line.isEmpty()) {
+            String[] headerParts = line.split(": ", 2);
+            if (headerParts.length == 2) {
+                headersMap.put(headerParts[0], headerParts[1]);
+            }
+        }
+        return new ParameterBag(headersMap);
+    }
 }

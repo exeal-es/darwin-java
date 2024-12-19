@@ -21,4 +21,8 @@ public class ParameterBag {
     public boolean has(String name) {
         return paramsByName.containsKey(name);
     }
+
+    public boolean isEmpty() {
+        return paramsByName.isEmpty();
+    }
 }
