@@ -10,13 +10,17 @@ public class Resources {
         this.resources = new LinkedList<>();
     }
 
-    public void add(HttpVerb verb, PathTemplate pathTemplate, Handler handler) {
+    public void add(HttpVerb verb, PathTemplate pathTemplate, Handler handler, boolean isSecured) {
         var resource = findResource(pathTemplate);
         if (resource == null) {
-            resource = new Resource(pathTemplate);
+            resource = new Resource(pathTemplate, isSecured);
             resources.add(resource);
         }
         resource.put(verb, handler);
+    }
+
+    public void add(HttpVerb verb, PathTemplate pathTemplate, Handler handler) {
+        add(verb, pathTemplate, handler, false);
     }
 
     public HttpResponse findAndApply(HttpRequest request) {

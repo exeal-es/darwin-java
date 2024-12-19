@@ -6,14 +6,19 @@ import java.util.Map;
 public final class Resource {
     private final PathTemplate pathTemplate;
     private final Map<HttpVerb, Handler> handlersByVerb;
+    private boolean isSecured;
 
-    public Resource(PathTemplate pathTemplate) {
+    public Resource(PathTemplate pathTemplate, boolean isSecured) {
         this.pathTemplate = pathTemplate;
+        this.isSecured = isSecured;
         this.handlersByVerb = new HashMap<>();
     }
 
     public HttpResponse accept(HttpRequest request) {
         var handler = handlersByVerb.get(request.verb());
+        if (isSecured && !request.headers().has("Authorization")) {
+            return HttpResponseFactory.unauthorized();
+        }
         if (handler == null) {
             return HttpResponseFactory.methodNotAllowed();
         }

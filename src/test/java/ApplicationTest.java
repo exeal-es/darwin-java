@@ -147,4 +147,25 @@ public class ApplicationTest {
 
         assertEquals("Hello John Doe!", body);
     }
+
+    @Test
+    public void testSecuredActionWithoutTokenShouldFail() throws IOException {
+        // Arrange
+        Application app = new Application();
+        boolean isSecured = true;
+        app.get("/secured", isSecured, (req) -> {
+            String name = req.claim("name");
+            return HttpResponseFactory.ok("Hello " + name + "!");
+        });
+
+        int port = findAvailableTcpPort();
+        app.run(port);
+
+        // Act & Assert
+        given()
+                .when()
+                .get("http://localhost:" + port + "/secured")
+                .then()
+                .statusCode(401);
+    }
 }

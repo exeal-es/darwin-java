@@ -6,6 +6,7 @@ import com.exeal.darwin.httpresponse.InternalServerErrorResponse;
 import com.exeal.darwin.httpresponse.MethodNotAllowedResponse;
 import com.exeal.darwin.httpresponse.NotFoundResponse;
 import com.exeal.darwin.httpresponse.OkResponse;
+import com.exeal.darwin.httpresponse.UnauthorizedResponse;
 
 public class HttpResponseFactory {
     public static HttpResponse ok(String body) {
@@ -30,5 +31,9 @@ public class HttpResponseFactory {
 
     public static HttpResponse forbidden() {
         return new ForbiddenResponse();
+    }
+
+    public static HttpResponse unauthorized() {
+        return new UnauthorizedResponse();
     }
 }

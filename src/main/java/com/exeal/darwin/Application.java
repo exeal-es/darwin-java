@@ -17,7 +17,7 @@ public class Application {
     }
 
     public void get(String path, boolean isSecured, Function<Request, HttpResponse> callback) {
-        resources.add(HttpVerb.GET, new PathTemplate(path), new Handler(callback));
+        resources.add(HttpVerb.GET, new PathTemplate(path), new Handler(callback), isSecured);
     }
 
     public void get(String path, Function<Request, HttpResponse> callback) {
