@@ -14,6 +14,12 @@ public class ParameterBag {
         return new ParameterBag(new HashMap<>());
     }
 
+    public static ParameterBag of(String name, String value) {
+        var paramsByName = new HashMap<String, String>();
+        paramsByName.put(name, value);
+        return new ParameterBag(paramsByName);
+    }
+
     public String get(String name) {
         return paramsByName.get(name);
     }

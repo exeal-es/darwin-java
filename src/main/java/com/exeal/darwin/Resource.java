@@ -26,7 +26,16 @@ public final class Resource {
         try {
             var pathParameterExtractor = new PathParameterExtractor(pathTemplate.value(), request.path());
             var pathParams = pathParameterExtractor.extractParams();
-            return handler.apply(new Request(request.queryParams(), pathParams));
+
+            ParameterBag claims;
+            if (request.headers().has("Authorization")) {
+                var authorizationHeader = request.headers().get("Authorization");
+                claims = AuthorizationHeaderParser.parseAuthorizationHeaderAndReturnClaims(authorizationHeader);
+            } else {
+                claims = ParameterBag.empty();
+            }
+
+            return handler.apply(new Request(request.queryParams(), pathParams, claims));
         } catch (Exception e) {
             return HttpResponseFactory.internalServerError(e.getMessage());
         }

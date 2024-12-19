@@ -1,6 +1,6 @@
 package com.exeal.darwin;
 
-public record Request(ParameterBag queryParams, ParameterBag pathParams) {
+public record Request(ParameterBag queryParams, ParameterBag pathParams, ParameterBag headers) {
     public String queryParam(String name) {
         return queryParams.get(name);
     }
@@ -10,6 +10,6 @@ public record Request(ParameterBag queryParams, ParameterBag pathParams) {
     }
 
     public String claim(String name) {
-        return "John Doe";
+        return headers.get(name);
     }
 }

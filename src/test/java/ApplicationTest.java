@@ -114,13 +114,6 @@ public class ApplicationTest {
         assertEquals(expected, body);
     }
 
-    /*
-     - Poder definir que una accion está securizada y que necesita un token de autenticación.
-     - Que si el token no es válido, que devuelva un 401.
-     - Que si el token es válido, te deje pasar y que devuelva un 200.
-     - Permitir que el código de usuario tenga acceso a los claims del token.
-     */
-
     @Test
     public void testSecuredActionWithValidToken() throws IOException {
         // Arrange
@@ -168,4 +161,38 @@ public class ApplicationTest {
                 .then()
                 .statusCode(401);
     }
+
+    @Test
+    public void testSecuredActionWithValidTokenWithAnotherName() throws IOException {
+        // Arrange
+        Application app = new Application();
+        boolean isSecured = true;
+        app.get("/secured", isSecured, (req) -> {
+            String name = req.claim("name");
+            return HttpResponseFactory.ok("Hello " + name + "!");
+        });
+
+        int port = findAvailableTcpPort();
+        app.run(port);
+
+        // Act & Assert
+        String body = given()
+                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBlcmljbyIsImlhdCI6MTUxNjIzOTAyMn0.t68XxLxzXDkhpvEsezxzyro51qbaFpXcl9C0Vw8h8do")
+                .when()
+                .get("http://localhost:" + port + "/secured")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        assertEquals("Hello Perico!", body);
+    }
+
+    /*
+     - Poder definir que una accion está securizada y que necesita un token de autenticación.
+     - Que si el token no es válido, que devuelva un 401.
+     - Que si el token es válido, te deje pasar y que devuelva un 200.
+     - Permitir que el código de usuario tenga acceso a los claims del token.
+     */
 }
