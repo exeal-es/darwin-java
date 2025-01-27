@@ -189,10 +189,4 @@ public class ApplicationTest {
         assertEquals("Hello Perico!", body);
     }
 
-    /*
-     - Poder definir que una accion está securizada y que necesita un token de autenticación.
-     - Que si el token no es válido, que devuelva un 401.
-     - Que si el token es válido, te deje pasar y que devuelva un 200.
-     - Permitir que el código de usuario tenga acceso a los claims del token.
-     */
 }
