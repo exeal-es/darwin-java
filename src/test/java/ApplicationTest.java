@@ -1,13 +1,16 @@
 import com.exeal.darwin.Application;
-import com.exeal.darwin.Configuration;
 import com.exeal.darwin.HttpResponseFactory;
+import com.exeal.darwin.Logger;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 
 import static io.restassured.RestAssured.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class ApplicationTest {
     @Test
@@ -188,5 +191,23 @@ public class ApplicationTest {
 
         assertEquals("Hello Perico!", body);
     }
+
+    @Test
+    public void testCreateLogWhenRequest() throws IOException {
+        // Arrange
+        Logger logger = mock(Logger.class);
+        Application app = new Application(logger);
+        int port = findAvailableTcpPort();
+        app.run(port);
+
+        // Act & Assert
+        given()
+                .when()
+                .get("http://localhost:" + port)
+        .then()
+                .statusCode(404);
+        verify(logger).log("http_method=GET status=404");
+    }
+
 
 }

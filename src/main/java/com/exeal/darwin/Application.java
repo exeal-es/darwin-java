@@ -10,10 +10,13 @@ import java.util.function.Function;
 
 public class Application {
 
-    private final Resources resources;
+    private final Resources resources = new Resources();
+    private Logger logger;
 
-    public Application() {
-        resources = new Resources();
+    public Application() { }
+
+    public Application(Logger logger) {
+        this.logger = logger;
     }
 
     public void get(String path, boolean isSecured, Function<Request, HttpResponse> callback) {
@@ -56,6 +59,8 @@ public class Application {
         OutputStream out = clientSocket.getOutputStream();
         out.write(httpResponse.payload().getBytes("UTF-8"));
         out.flush();
+
+        if (logger != null) logger.log("http_method=" + httpRequest.verb() + " status=" + httpResponse.statusCode());
     }
 
     private HttpResponse handleResponse(HttpRequest httpRequest) {
