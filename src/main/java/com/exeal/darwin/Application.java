@@ -60,7 +60,7 @@ public class Application {
         out.write(httpResponse.payload().getBytes("UTF-8"));
         out.flush();
 
-        if (logger != null) logger.log("http_method=" + httpRequest.verb() + " status=" + httpResponse.statusCode());
+        if (logger != null) logger.log("http_method=" + httpRequest.verb() + " status=" + httpResponse.statusCode() + " http_path=" + httpRequest.path());
     }
 
     private HttpResponse handleResponse(HttpRequest httpRequest) {

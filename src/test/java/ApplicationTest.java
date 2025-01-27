@@ -203,10 +203,10 @@ public class ApplicationTest {
         // Act & Assert
         given()
                 .when()
-                .get("http://localhost:" + port)
+                .get("http://localhost:" + port + "/patata")
         .then()
                 .statusCode(404);
-        verify(logger).log("http_method=GET status=404");
+        verify(logger).log("http_method=GET status=404 http_path=/patata");
     }
 
 
